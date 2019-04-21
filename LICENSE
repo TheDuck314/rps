@@ -2,5 +2,8 @@ The networking code under networking/ is based on Halite III
 (https://github.com/HaliteChallenge/Halite-III) and is therefore under the MIT
 license; see networking/LICENSE.
 
+The build script downloads tclap (http://tclap.sourceforge.net/) which is also
+under an MIT license.
+
 All other code in this repository is free and  unencumbered software released
 into the public domain.
