@@ -8,6 +8,9 @@
 #include <memory>
 #include <vector>
 
+#include <tclap/CmdLine.h>
+
+
 std::string stringf(const char* format, ...)
 {
     va_list args;
@@ -147,16 +150,36 @@ class Game {
 
 
 int main(int argc, char **argv) {
-    if (argc != 3) {
-        fprintf(stderr, "usage: rps 'player 1 command' 'player 2 command'\n");
+    std::string cmd1;
+    std::string cmd2;
+    bool csv_output;
+    long max_turns;
+
+    try {
+        TCLAP::CmdLine cmd_line("Command description message", ' ', "0.9");
+        TCLAP::UnlabeledValueArg<std::string> cmd1_arg("cmd1", "executable command", true, "", "player 1 command", cmd_line);
+        TCLAP::UnlabeledValueArg<std::string> cmd2_arg("cmd2", "executable command", true, "", "player 1 command", cmd_line);
+        TCLAP::SwitchArg csv_arg("c", "csv", "csv output instead of json", cmd_line, false);
+        TCLAP::ValueArg<long> turns_arg("t", "turns", "how many turns to play", false, 100, "integer", cmd_line);
+        
+        cmd_line.parse(argc, argv);
+        
+        cmd1       = cmd1_arg.getValue();
+        cmd2       = cmd2_arg.getValue();
+        csv_output = csv_arg.getValue();
+        max_turns  = turns_arg.getValue();
+    } catch (TCLAP::ArgException &e)  {
+        fprintf(stderr, "error: %s for arg %s\n", e.error().c_str(), e.argId().c_str());
         return 1;
     }
 
-    const std::chrono::milliseconds timeout(1000);
-    Game game(argv[1], argv[2], timeout);
+    fprintf(stderr, "csv_output = %d", csv_output);
 
-    for (int i = 0; i < 100000; ++i) {
-        fprintf(stderr, "turn %d\n", i);
+    const std::chrono::milliseconds timeout(1000);
+    Game game(cmd1, cmd2, timeout);
+
+    for (long i = 0; i < max_turns; ++i) {
+        fprintf(stderr, "turn %ld\n", i);
         if (!game.turn()) break;
     }
 
