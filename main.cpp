@@ -32,19 +32,26 @@ struct GameResult {
         std::ostringstream ss;
         ss << "{\n";
         // moves of each player, as an array of two arrays
-        ss << "  moves: [\n";
+        ss << "  \"moves\": [\n";
         for (int i = 0; i < 2; ++i) {
             ss << "    [";
-            for (const std::string &m : moves[i]) {
-                ss << "\"" << m << "\", ";
+            for (size_t m = 0; m < moves[i].size(); ++m) {
+                ss << "\"" << moves[i][m] << "\"";
+                if (m < moves[i].size() - 1) {
+                    ss << ", ";
+                }
             }
-            ss << "],\n";
+            ss << "]";
+            if (i == 0) {
+                ss << ",";
+            }
+            ss << "\n";
         }
         ss << "  ],\n";
         // points as an array of two ints
-        ss << "  points: [" << points[0] << ", " << points[1] << "],\n";
-        ss << "  winner: " << winner << ",\n";
-        ss << "  message: \"" << message << "\",\n";
+        ss << "  \"points\": [" << points[0] << ", " << points[1] << "],\n";
+        ss << "  \"winner\": " << winner << ",\n";
+        ss << "  \"message\": \"" << message << "\"\n";
         ss << "}\n";
         return ss.str();
     }
