@@ -180,8 +180,6 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    fprintf(stderr, "csv_output = %d", csv_output);
-
     const std::chrono::milliseconds timeout(1000);
     Game game(cmd1, cmd2, timeout);
 
