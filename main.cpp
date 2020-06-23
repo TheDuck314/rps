@@ -159,7 +159,6 @@ class Game {
 int main(int argc, char **argv) {
     std::string cmd1;
     std::string cmd2;
-    bool csv_output;
     long max_turns;
 
     try {
@@ -173,7 +172,6 @@ int main(int argc, char **argv) {
         
         cmd1       = cmd1_arg.getValue();
         cmd2       = cmd2_arg.getValue();
-        csv_output = csv_arg.getValue();
         max_turns  = turns_arg.getValue();
     } catch (TCLAP::ArgException &e)  {
         fprintf(stderr, "error: %s for arg %s\n", e.error().c_str(), e.argId().c_str());
